@@ -1,0 +1,43 @@
+body {
+  color: black;
+  background-color: white;
+  margin: 40px;
+}
+table {
+  display: table;
+  background-color: rgb(223, 70, 70);
+  text-align: center;
+  font-size: 0.95em;
+  font-weight: 300;
+  border: 5px solid yellow;
+  height: 1000px;
+  width: 1000px;
+}
+tr {
+  display: table-row;
+  border-width: 1px;
+  vertical-align: inherit;
+  border-color: black;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: 300;
+  border: 1px solid black;
+  height: 50px;
+  width: 500px;
+  text-align: center;
+}
+tbody {
+  border: 5px solid yellow;
+  width: 500px;
+}
+td {
+  display: table-cell;
+  height: 50px;
+}
+.cell {
+  background-color:rgb(231, 222, 222);
+  color: black;
+  padding: 20px;
+  font-size: 20px;
+}
