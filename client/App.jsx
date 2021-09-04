@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import Nav from './components/Nav.jsx';
+import StopWatch from './components/StopWatch.jsx';
 import Grid from './components/Grid.jsx';
 
 class App extends React.Component {
@@ -32,19 +32,18 @@ class App extends React.Component {
   render() {
     const {height, width, mines} = this.state;
     return (
-      <div>
-        <h1>MINESWEEPER by HKM</h1>
+      <div className="App">
+        <h1 className="App-title">MINESWEEPER</h1>
         <div id="board">
           <Grid height={height} width={width} mines={mines} />
         </div>
         <form onSubmit={this.submit}>
-          <input type="submit" name="plant_poops" value="Plant Rabbit Poops"></input>
+          <input type="submit" name="plant_mines" value="Plant Mines"></input>
         </form>
+        <StopWatch />
       </div>
     );
   }
 }
 
 export default App;
-
-//when you click start it should randmly plant ten mines

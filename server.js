@@ -11,7 +11,6 @@ app.use(parser.urlencoded({ extended: true}))
 app.use(express.json())
 
 app.get('/start', (req, res) => {
-  console.log(req)
   res.status(200).send()
 })
 
