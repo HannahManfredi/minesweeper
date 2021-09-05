@@ -1,39 +1,71 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* layout: main */
+.app {
+  position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: hidden;
 }
-body {
-  color: black;
-  background-color: white;
-  margin: 40px;
+.container {
+	background-color: #a09e9e;
+	border: 1px solid #D4D0C8;
+	border-right-color: #404040;
+	border-bottom-color: #404040;
+	position: absolute;
+	white-space: nowrap;
 }
-.App {
-  text-align: center;
-  font-family: Helvetica, sans-serif;
-  background-color: rgb(34, 34, 34);
-  height: 150vh;
-  color: rgb(250, 250, 250);
-}
-.App-title {
-  font-size: 50px;
-  padding: 25px 0;
-}
-.board {
-  margin: 40px;
-  margin-left: 26%; 
-}
-.grid_header {
-  margin: 40px;
-  margin-left: 26%; 
+.title-container {
   display: flex;
-  background-color:rgb(231, 222, 222);
-  border: 5px solid yellow;
-  cursor: pointer;
-  text-align: center;
-  width: 1000px;
-  height: 75px;
+  height: 42px;
+  padding: 4px;
+  overflow: hidden;
+  margin-bottom: 2px;
+  background-color: #a09e9e;
 }
+
+/* text */
+.app-title {
+  padding: 2px;
+  padding-left: 45px;
+  margin-bottom: 1px;
+  font-size: 36px;
+  font-weight: bold;
+  color:rgb(222, 226, 230);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* icons */
+.icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 1px;
+  margin-top: -1px;
+}
+
+/* buttons */
+.title-btns {
+  float: right;
+}
+.btn-container {
+  height: 11px;
+  width: 13px;
+  padding: 0;
+}
+
+/* board */
+.board {
+  padding: 6px 5px 5px 6px;
+  background-color: #c0c0c0;
+  border: 3px solid #FFF;
+  border-bottom: none;
+  border-right: none;
+}
+
+/* stopwatch */
 @media (max-width: 900px) {
   .Stopwatch {
     margin-bottom: 40px;
@@ -47,8 +79,8 @@ body {
   border-radius: 4px;
   padding: 20px;
   width: 400px;
-  background-color: rgb(22, 27, 31);
-  box-shadow: 0 3px 6px rgb(12, 12, 12);
+  background-color:#c0c0c0;
+  box-shadow: 0 3px 6px grey;
 }
 .Stopwatch-header {
   font-size: 40px;

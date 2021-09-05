@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Board from './components/Board.jsx';
+import mineIcon from "../public/assets/mine.png";
 import smiley from "../public/assets/smiley.png";
 import frowny from "../public/assets/frowny.png";
 
@@ -137,20 +138,28 @@ class App extends React.Component {
     let seconds = ("0" + (Math.floor(timerTime / 1000) % 60)).slice(-2);
     let minutes = ("0" + (Math.floor(timerTime / 60000) % 60)).slice(-2);
     return (
-      <div className="App">
-        <h1 className="App-title">MINESWEEPER</h1>
-        <div className="grid_header">
-          <img className="smiley" onClick={this.click}src={game_over ? frowny : smiley}/>
-        </div>
-        <div className="board">
-          <Board height={height} width={width} mines={mines}/>
-        </div>
+      <div className="app">
+        <div className="container">
+          <div className="title-container">
+            <span className="icon">
+              <img className="title-icon" src={mineIcon}/>
+            </span>
+            <div className="app-title">Minesweeper</div>
+          </div>
+          
+          <div className="grid_header">
+            {/* <img className="smiley" onClick={this.click}src={game_over ? frowny : smiley}/> */}
+          </div>
+          <div className="board">
+            <Board height={height} width={width} mines={mines}/>
+          </div>
           <div className="Stopwatch">
             <div className="Stopwatch-header"></div>
             <div className="Stopwatch-display">
                 {minutes} : {seconds}
             </div>
           </div>
+        </div>
       </div>
     );
   }
