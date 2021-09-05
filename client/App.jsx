@@ -3,18 +3,15 @@ import axios from 'axios';
 import Board from './components/Board.jsx';
 import mineIcon from "../public/assets/mine.png";
 import smiley from "../public/assets/smiley.png";
-import frowny from "../public/assets/frowny.png";
+// import frowny from "../public/assets/frowny.png";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: 10,
-      width: 10,
       board: [],
       mines: [],
       smiley: smiley,
-      frowny: frowny,
       timerOn: false,
       timerTime: 0,
       timerStart: 0,
@@ -134,7 +131,7 @@ class App extends React.Component {
   };
 
   render() {
-    const {smiley, frowny, game_over, height, width, mines_total, mines, timerTime} = this.state;
+    const {smiley, game_over, height, width, mines_total, mines, timerTime} = this.state;
     let seconds = ("0" + (Math.floor(timerTime / 1000) % 60)).slice(-2);
     let minutes = ("0" + (Math.floor(timerTime / 60000) % 60)).slice(-2);
     return (
@@ -146,19 +143,42 @@ class App extends React.Component {
             </span>
             <div className="app-title">Minesweeper</div>
           </div>
-          
-          <div className="grid_header">
-            {/* <img className="smiley" onClick={this.click}src={game_over ? frowny : smiley}/> */}
-          </div>
-          <div className="board">
-            <Board height={height} width={width} mines={mines}/>
-          </div>
-          <div className="Stopwatch">
-            <div className="Stopwatch-header"></div>
-            <div className="Stopwatch-display">
-                {minutes} : {seconds}
+          <div className="menu-container">
+            <div className="menu-btn">
+              <span className="text">Game</span>
+            </div><div className="menu-btn">
+              <span className="text">Help</span>
             </div>
           </div>
+          <div className="game_menu-container">
+            <div className="game-status-bar">
+              <div className="game-menu">
+                <div className="num-box">
+                  <div className="digit iii"></div>
+                  <div className="digit ii"></div>
+                  <div className="digit i"></div>
+                </div>
+                <div className="smiley-container">
+                  <div className="smiley-btn">
+                    <div className="smiley-inner">
+                      <div><img className="smiley-icon" src={smiley} onClick={this.click}/></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="num-box timer">
+                  <div className="Stopwatch">
+                    <div className="Stopwatch-header"></div>
+                      <div className="Stopwatch-display">
+                        {minutes} : {seconds}
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div className="board">
+              <Board mines={mines}/>
+            </div>
         </div>
       </div>
     );
@@ -167,7 +187,5 @@ class App extends React.Component {
 
 export default App;
 
-//app controls state of timer
-  //when you click smiley face
-    //set board
-    //start timer
+//once i get frowny back:
+// src={game_over ? frowny : smiley}

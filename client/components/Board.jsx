@@ -12,19 +12,16 @@ class Board extends React.Component {
   click = (e) => {
     const mines = this.props.mines;
     let cell = e.target.dataset.item;
-    console.log('clicked cell: ', cell);
     if (mines.includes(Number(cell))) {
-      console.log('cell in mines array: ', cell);
       this.setState({
         clicked_mine: true
       });
     }
     let cells = document.getElementsByTagName("td");
-    console.log('cells: ', cells);
     let img = document.createElement('img');
     img.src = boom;
+    img.classList.add('icon');
     img.classList.add('boom');
-    console.log('classList: ', img.classList)
     for (let cell of cells) {
       mines.forEach(mine => {
         if (cell.dataset.item === mine) {
@@ -48,7 +45,7 @@ class Board extends React.Component {
     const gridCells9 = [1.9, 2.9, 3.9, 4.9, 5.9, 6.9, 7.9, 8.9, 9.9, 10.9];
     const gridCells10 = [1.10, 2.10, 3.10, 4.10, 5.10, 6.10, 7.10, 8.10, 9.10, 10.10];
     return (
-      <div>
+      // <div>
         <table>
           <tbody>
             <tr onClick={this.click}>
@@ -153,7 +150,7 @@ class Board extends React.Component {
             </tr>
           </tbody>
         </table>
-      </div>
+      // </div>
     );
   }
 }

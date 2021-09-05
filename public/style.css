@@ -6,6 +6,8 @@
 	left: 0;
 	right: 0;
 	overflow: hidden;
+  background-color: black;
+  padding: 60px;
 }
 .container {
 	background-color: #a09e9e;
@@ -14,29 +16,103 @@
 	border-bottom-color: #404040;
 	position: absolute;
 	white-space: nowrap;
+  height: 470px;
+  width: 305px;
 }
 .title-container {
   display: flex;
-  height: 42px;
-  padding: 4px;
+  height: 39px;
+  padding: 3px;
   overflow: hidden;
   margin-bottom: 2px;
   background-color: #a09e9e;
 }
+.menu-container {
+  height: 36px;
+  color: #808080;
+  background-color: rgb(211,208,200);
+	position: relative;
+}
+.game_menu-container {
+  overflow: hidden;
+  border: 2px solid #FFF;
+  border-radius: 0 2px 0 2px;
+  /* margin-left: 2px; */
+  background-color: rgb(211,208,200);
+}
+.game-status-bar {
+  padding: 1px;
+  background-color: #c0c0c0;
+  border: 3px solid #FFF;
+  border-bottom: none;
+  border-right: none;
+}
+.game-menu {
+  height: 51px;
+  margin-bottom: 6px;
+  border: 2px solid $border-med;
+  border-right-color: #FFF;
+  border-bottom-color: #FFF;
+  padding: 4px 7px 0 5px;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  border-left-color: #000;
+	border-top-color: #000;
+}
+.num-box {
+  border-color: #000;
+  border-right-color: #FFF;
+  border-bottom-color: #FFF;
+}
+.num-box.timer {
+  padding-top: 10px;
+  width: 58px;
+}
+.smiley-container {
+  flex: 1 0 auto;
+	text-align: center;
+}
+.board-container {
+  margin-top: 4px;
+  margin: 34px 15px 37px;
+	height: 68px;
+  display: inline-block;
+	margin-right: 16px;
+  background-color: #D4D0C8;
+	border: 1px solid #D4D0C8;
+	border-right-color: #404040;
+	border-bottom-color: #404040;
+	position: absolute;
+	white-space: nowrap;
+}
+
 
 /* text */
 .app-title {
   padding: 2px;
   padding-left: 45px;
   margin-bottom: 1px;
-  font-size: 36px;
+  font-size: 20px;
   font-weight: bold;
   color:rgb(222, 226, 230);
   margin-top: 1px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-top: 9px;
 }
+.text {
+  display: inline-block;
+	margin: 1px -1px -1px 1px;
+}
+.digit {
+  display: inline-block;
+  margin: 1px 1px 0;
+  width: 11px;
+  height: 21px;
+}
+
 /* icons */
 .icon {
   display: inline-block;
@@ -44,6 +120,10 @@
   height: 16px;
   margin-right: 1px;
   margin-top: -1px;
+}
+.boom {
+  width: 5px;
+  height: 5px;
 }
 
 /* buttons */
@@ -55,121 +135,106 @@
   width: 13px;
   padding: 0;
 }
-
+.menu-btn {
+  display: inline-block;
+  text-align: center;
+  height: 20px;
+  padding: 3px 5px 0 5px;
+  padding-left: 3px;
+  border: 1px solid transparent;
+  overflow: hidden;
+  font-size: 16px;
+  padding-top: 4px;
+}
+.smiley-btn {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 1px solid #808080;
+  border-radius: 0 1px 0 1px;
+  margin-left: 2px;
+}
+.smiley-inner {
+  height: 40px;
+  width: 40px;
+  padding: 2px 1px 1px 2px;
+  border: 5px solid #FFF;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+}
+.smiley-icon {
+  height: 38px;
+  width: 38px;
+  margin-bottom: 14px;
+}
 /* board */
+.inner-board {
+  padding: 1px;
+  border: 1px solid #FFF;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+}
 .board {
-  padding: 6px 5px 5px 6px;
+  padding: 6px 5px 5px 0px;
   background-color: #c0c0c0;
-  border: 3px solid #FFF;
+  border: 2px solid #FFF;
   border-bottom: none;
   border-right: none;
 }
-
-/* stopwatch */
-@media (max-width: 900px) {
-  .Stopwatch {
-    margin-bottom: 40px;
-    padding-left: 435px;
-  }
-}
-.Stopwatch {
-  margin: 60px;
-  margin-left: 850px;
-  border: 2px solid grey;
-  border-radius: 4px;
-  padding: 20px;
-  width: 400px;
-  background-color:#c0c0c0;
-  box-shadow: 0 3px 6px grey;
-}
-.Stopwatch-header {
-  font-size: 40px;
-  font-weight: bold;
-}
-button {
-  background-color: #202b33;
-  border: solid 1px transparent;
-  border-radius: 4px;
-  padding: 10px 20px;
-  color: #ffffff;
-  font-size: 16px;
-  margin: 0 5px;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #106ba3;
-}
-.Stopwatch button {
-  padding: 12px 32px;
-  font-size: 20px;
-}
-.Stopwatch-display {
-  padding: 40px 0;
-  font-size: 48px;
-}
 table {
   display: table;
-  background-color: rgb(223, 70, 70);
+  background-color: #c0c0c0;;
+  width: 300px;
+  min-width: 300px;
+  height: 300px;
+  min-height: 300px;
   text-align: center;
   font-size: 0.95em;
-  font-weight: 300;
-  border: 5px solid yellow;
-  height: 1000px;
-  width: 1000px;
-}
-.digits{
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 3rem;
-  color:  #f5f5f5;
-}
-.mili-sec{
-  color:  #e42a2a;
-}
-.total_mines {
-  background-color: black;
-  color: red;
-  font-size: 50px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-.timer {
-  background-color: black;
-  color: red;
-  font-size: 50px;
-  margin-left: 150px;
-  padding: 0 50px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-.smiley {
-  padding-left: 429px;
-  background-color: rgb(231, 222, 222);
-}
-.boom {
-  width: 20px;
-  height: 20px;
+  border: 2px solid yellow;
 }
 tr {
   display: table-row;
   vertical-align: inherit;
   cursor: pointer;
   text-align: center;
-  font-size: 1.1em;
-  font-weight: 300;
+  font-size: 0.95em;
   border: 1px solid black;
-  height: 50px;
-  width: 500px;
   text-align: center;
 }
 tbody {
-  border: 5px solid yellow;
-  width: 500px;
+  border: 2px solid yellow;
 }
 td {
   display: table-cell;
-  height: 50px;7
 }
 .cell {
   background-color:rgb(231, 222, 222);
   color: black;
-  padding: 20px;
-  font-size: 20px;
+  font-size: 0.95em;
 }
+
+/* stopwatch */
+/* @media (max-width: 900px) {
+  .Stopwatch {
+    margin-bottom: 40px;
+    padding-left: 435px;
+  }
+} */
+.Stopwatch {
+  border: 1px solid grey;
+  border-radius: 1px;
+  padding: 2px;
+  width: 54px;
+  background-color:#c0c0c0;
+  box-shadow: 0 1px 3px grey;
+}
+.Stopwatch-display {
+  padding: 2px;
+  font-size: 18px;
+}
+.digits{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 3rem;
+  color:  #808080;
+}
+
