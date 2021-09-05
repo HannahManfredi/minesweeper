@@ -23,15 +23,12 @@ class Board extends React.Component {
     console.log('cells: ', cells);
     let img = document.createElement('img');
     img.src = boom;
-    // console.log('img: ', img);
+    img.classList.add('boom');
+    console.log('classList: ', img.classList)
     for (let cell of cells) {
-      // console.log('cell.dataset.item: ', cell.dataset.item);
       mines.forEach(mine => {
-        // console.log('mine: ', mine);
         if (cell.dataset.item === mine) {
-          console.log('match')
           cell.appendChild(img);
-          // console.log('cell: ', cell);
         }
       });
     }

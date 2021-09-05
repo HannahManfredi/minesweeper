@@ -55,8 +55,8 @@ class App extends React.Component {
   setBoard = () => {
     console.log('in setboard');
     let numbs = [1, 2, 3];
-    let board = []; //needs numbs flags
-    let mines = []; //[[row_index, col_index]] for each mine
+    let board = [...Array(10)].map(e => Array(10));
+    let mines = [];
     const makeBombs = () => {
       if (mines.length === 10) {
         return;
@@ -75,6 +75,31 @@ class App extends React.Component {
     this.setState({
       mines: mines
     });
+    for (let i = 0; i < board.length; i++) {
+      let row = board[i]
+      for (let j = 1; j <= 10; j++) {
+        let v = Number(j + '.' + (i + 1));
+        let mineFlag = false;
+        if (mines.indexOf(v) > -1) {
+          mineFlag = true;
+        }
+        let value = {
+            val: v,
+            mine: mineFlag,
+            neighbors: []
+        }
+        row.push(value);
+      }
+    }
+    this.setNeighbors(board);
+  }
+
+  setNeighbors = (board) => {
+    //ROBOT PATHS!
+    //if row 1 dont check for mines above
+    //if column 1 dont check for mines to left
+    //if column 10 dont check for mines to right
+    //if row 10 dont check for mines below
   }
 
   startTimer = () => {

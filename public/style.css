@@ -111,6 +111,10 @@ table {
   padding-left: 429px;
   background-color: rgb(231, 222, 222);
 }
+.boom {
+  width: 20px;
+  height: 20px;
+}
 tr {
   display: table-row;
   vertical-align: inherit;
