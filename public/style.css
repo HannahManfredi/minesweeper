@@ -16,19 +16,19 @@
 	border-bottom-color: #404040;
 	position: absolute;
 	white-space: nowrap;
-  height: 470px;
+  height: 457px;
   width: 305px;
 }
 .title-container {
   display: flex;
-  height: 39px;
-  padding: 3px;
+  height: 34px;
+  padding: 2px;
   overflow: hidden;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   background-color: #a09e9e;
 }
 .menu-container {
-  height: 36px;
+  height: 32px;
   color: #808080;
   background-color: rgb(211,208,200);
 	position: relative;
@@ -91,16 +91,18 @@
 /* text */
 .app-title {
   padding: 2px;
-  padding-left: 45px;
-  margin-bottom: 1px;
-  font-size: 20px;
+  padding-left: 34px;
+  margin-bottom: 2px;
+  font-size: 24px;
   font-weight: bold;
-  color:rgb(222, 226, 230);
+  color: #D2D0C8;
   margin-top: 1px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-top: 9px;
+  padding-top: 7px;
+  padding-right: 17px;
+  padding-bottom: 8px;
 }
 .text {
   display: inline-block;
@@ -116,10 +118,12 @@
 /* icons */
 .icon {
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   margin-right: 1px;
-  margin-top: -1px;
+  /* margin-top: -1px; */
+  padding-bottom: 2px;
+  margin-bottom: 1px;
 }
 .boom {
   width: 5px;
@@ -127,8 +131,18 @@
 }
 
 /* buttons */
-.title-btns {
+.classic-btns-container  {
+  padding-top: 2px;
+  display: flex;
   float: right;
+}
+.classic-btn {
+  height: 11px;
+	width: 13px;
+}
+.classic-inner-btn {
+  height: -11px * -1;
+  width: -13px * -1;
 }
 .btn-container {
   height: 11px;
@@ -183,7 +197,8 @@
 }
 table {
   display: table;
-  background-color: #c0c0c0;;
+  color: #c0c0c0;
+  background-color: #c0c0c0;
   width: 300px;
   min-width: 300px;
   height: 300px;
@@ -208,9 +223,8 @@ td {
   display: table-cell;
 }
 .cell {
-  background-color:rgb(231, 222, 222);
-  color: black;
   font-size: 0.95em;
+  border: 1px solid black;
 }
 
 /* stopwatch */

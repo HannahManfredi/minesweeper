@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Board from './components/Board.jsx';
 import mineIcon from "../public/assets/mine.png";
+import classic_icons from "../public/assets/classic_icons.png";
 import smiley from "../public/assets/smiley.png";
 // import frowny from "../public/assets/frowny.png";
 
@@ -139,9 +140,16 @@ class App extends React.Component {
         <div className="container">
           <div className="title-container">
             <span className="icon">
-              <img className="title-icon" src={mineIcon}/>
+              <img src={mineIcon}/>
             </span>
             <div className="app-title">Minesweeper</div>
+            <div className="classic-btns-container">
+                <div className="classic-btn">
+                  <div className="classic-inner-btn">
+                    <img src={classic_icons}/>
+                  </div>
+                </div>
+            </div>
           </div>
           <div className="menu-container">
             <div className="menu-btn">
