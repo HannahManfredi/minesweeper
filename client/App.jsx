@@ -1,10 +1,35 @@
 import React from 'react';
 import axios from 'axios';
+import "babel-polyfill";
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { styleReset, Counter } from 'react95';
+import original from "react95/dist/themes/original";
+import ms_sans_serif from "react95/dist/fonts/ms_sans_serif.woff2";
+import ms_sans_serif_bold from "react95/dist/fonts/ms_sans_serif_bold.woff2";
 import Board from './components/Board.jsx';
 import mineIcon from "../public/assets/mine.png";
 import classic_icons from "../public/assets/classic_icons.png";
 import smiley from "../public/assets/smiley.png";
 // import frowny from "../public/assets/frowny.png";
+
+const GlobalStyles = createGlobalStyle`
+  @font-face {
+    font-family: 'ms_sans_serif';
+    src: url('${ms_sans_serif}') format('woff2');
+    font-weight: 400;
+    font-style: normal
+  }
+  @font-face {
+    font-family: 'ms_sans_serif';
+    src: url('${ms_sans_serif_bold}') format('woff2');
+    font-weight: bold;
+    font-style: normal
+  }
+  body {
+    font-family: 'ms_sans_serif';
+  }
+  ${styleReset}
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -25,12 +50,19 @@ class App extends React.Component {
     axios
       .get('/start')
       .then(res => {
-        console.log('ready to play minesweeper')
-        this.setBoard();
+        const board = async () => {
+          let newBoard = await this.setBoard();
+          this.setState({
+            board: newBoard
+          }, () => {
+            console.log('board is set. ready to play minesweeper')
+          });
+        }
+        board();
       })
       .catch((err) => {
         throw err;
-      })
+      });
   }
 
   click = (e) => {
@@ -51,31 +83,27 @@ class App extends React.Component {
     }
   }
 
-  setBoard = () => {
-    console.log('in setboard');
-    let numbs = [1, 2, 3];
-    let board = [...Array(10)].map(e => Array(10));
+  setBoard = async () => {
+    console.log('in setBoard');
+    let board = [...Array(10)].map(e => Array());
     let mines = [];
-    const makeBombs = () => {
+    const makeMines = () => {
       if (mines.length === 10) {
         return;
       }
       let random_row = Math.floor(Math.random() * (10 - 1 + 1) + 1); 
       let random_col = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-      let bomb = Number(random_row + '.' + random_col);
-      // let bomb = [random_col.random_row];
-      if (mines.indexOf(bomb) === -1) {
-        mines.push(bomb);
+      let mine = Number(random_row + '.' + random_col);
+      if (mines.indexOf(mine) === -1) {
+        mines.push(mine);
       }
-      return makeBombs();
+      return makeMines();
     }
-    makeBombs()
-    console.log('mines: ', mines);
+    makeMines()
     this.setState({
       mines: mines
     });
-    for (let i = 0; i < board.length; i++) {
-      let row = board[i]
+    for (let i = 0; i <= 10; i++) {
       for (let j = 1; j <= 10; j++) {
         let v = Number(j + '.' + (i + 1));
         let mineFlag = false;
@@ -84,21 +112,109 @@ class App extends React.Component {
         }
         let value = {
             val: v,
-            mine: mineFlag,
-            neighbors: []
+            x: (i + 1),
+            y: j,
+            isMine: mineFlag,
+            isRevealed: false,
+            isEmpty: false,
+            sFlagged: false,
+            neighbor: 0
         }
-        row.push(value);
+        console.log('board[i]: ', board[i])
+        if (board[i]) {
+          board[i].push(value);
+        }
       }
     }
-    this.setNeighbors(board);
+    let updateBoard = await this.setNeighbors(board);
+    return updateBoard;
+  } 
+
+  setNeighbors = async (board) => {
+    console.log('board: ', board);
+    let updatedBoard = board;
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        console.log('i: ', i)
+        console.log('j: ', j)
+        if (board[i][j].isMine !== true) {
+          let mine = 0;
+          console.log('board[i][j].x: ', board[i][j].x)
+          console.log('board[i][j].y: ', board[i][j].y)
+          const area = this.traverseBoard(board[i][j].x, board[i][j].y, board);
+          console.log('area: ', area);
+          area.map(value => {
+            console.log('value: ', value)
+            if (value.isMine) {
+              mine++;
+            }
+          });
+          if (mine === 0) {
+            updatedBoard[i][j].isEmpty = true;
+          }
+          updatedBoard[i][j].neighbour = mine;
+        }
+
+      }
+    }
+    return updatedBoard;
   }
 
-  setNeighbors = (board) => {
-    //ROBOT PATHS!
-    //if row 1 dont check for mines above
-    //if column 1 dont check for mines to left
-    //if column 10 dont check for mines to right
-    //if row 10 dont check for mines below
+  // x=1
+  // y=10
+  //10.1
+  traverseBoard = (x, y, data) => {
+    const el = [];
+    console.log('x: ', x, 'y: ', y, 'data: ', data);
+    console.log('data[0]: ', data[0]) //row 1?
+    //up
+    if (x > 0) {
+      console.log('data[x - 1][y - 1]: ', data[x - 1][y - 1])
+      el.push(data[x - 1][y - 1]);
+    } 
+    //down
+    if (x < 10 - 1) {
+      console.log('data[x + 1][y]: ', data[x + 1][y])
+      if (x === 9) {
+        el.push(data[x][y - 1]);
+      } else {
+        el.push(data[x + 1][y - 1]);
+      }
+    }
+    //left
+    if (y > 0) {
+      console.log('x*: ', x, 'y*: ', y)
+      console.log('data[x-1]*: ', data[x-1][0])
+      console.log('data[x][y - 1]: ', data[x-1][y - 1])
+      el.push(data[x-1][y - 1]);
+    }
+    //right
+    if (y < 10 - 1) {
+      console.log('data[x][y + 1]: ', data[x-1][y + 1])
+      el.push(data[x-1][y + 1]);
+    }
+    // top left
+    if (x > 0 && y > 0) {
+      console.log('data[x - 1][y - 1]: ', data[x - 1][y - 1])
+      el.push(data[x - 1][y - 1]);
+    }
+    // top right
+    if (x > 0 && y < 10 - 1) {
+      console.log('data[x - 1][y + 1]: ', data[x - 1][y + 1])
+      el.push(data[x - 1][y + 1]);
+    }
+    // bottom right
+    if (x < 10 - 1 && y < 10 - 1) {
+      console.log('x: ', x, 'y: ', y)
+      // console.log('data[x + 1][y + 1]: ', data[x + 1][y + 1])
+      el.push(data[x + 1][y + 1]);
+    }
+    // bottom left
+    if (x < 10 - 1 && y > 0) {
+      console.log('data[x + 1][y - 1]: ', data[x + 1][y - 1])
+      el.push(data[x + 1][y - 1]);
+    }
+    return el;
   }
 
   startTimer = () => {
@@ -132,40 +248,45 @@ class App extends React.Component {
   };
 
   render() {
-    const {smiley, game_over, height, width, mines_total, mines, timerTime} = this.state;
+    const {smiley, board, mines, timerTime} = this.state;
     let seconds = ("0" + (Math.floor(timerTime / 1000) % 60)).slice(-2);
     let minutes = ("0" + (Math.floor(timerTime / 60000) % 60)).slice(-2);
-    return (
-      <div className="app">
-        <div className="container">
-          <div className="title-container">
-            <span className="icon">
-              <img src={mineIcon}/>
-            </span>
-            <div className="app-title">Minesweeper</div>
-            <div className="classic-btns-container">
-                <div className="classic-btn">
-                  <div className="classic-inner-btn">
-                    <img src={classic_icons}/>
+    if (board.length > 0) {
+      return (
+        <div className="app">
+          <GlobalStyles />
+          <div className="container">
+            <div className="title-container">
+              <span className="icon">
+                <img src={mineIcon}/>
+              </span>
+              <div className="app-title">Minesweeper</div>
+              <div className="classic-btns-container">
+                  <div className="classic-btn">
+                    <div className="classic-inner-btn">
+                      <img src={classic_icons}/>
+                    </div>
                   </div>
-                </div>
+              </div>
             </div>
-          </div>
-          <div className="menu-container">
-            <div className="menu-btn">
-              <span className="text">Game</span>
-            </div><div className="menu-btn">
-              <span className="text">Help</span>
+            <div className="menu-container">
+              <div className="menu-btn">
+                <span className="text">Game</span>
+              </div><div className="menu-btn">
+                <span className="text">Help</span>
+              </div>
             </div>
-          </div>
-          <div className="game_menu-container">
-            <div className="game-status-bar">
-              <div className="game-menu">
-                <div className="num-box">
-                  <div className="digit iii"></div>
-                  <div className="digit ii"></div>
-                  <div className="digit i"></div>
-                </div>
+            <div className="game_menu-container">
+              <div className="game-status-bar">
+                <div className="game-menu">
+                <ThemeProvider theme={original}>
+                    <Counter>
+                      <div className="num-box">
+                        <div  className="mine-count">
+                        </div>
+                      </div>
+                    </Counter>
+                </ThemeProvider>
                 <div className="smiley-container">
                   <div className="smiley-btn">
                     <div className="smiley-inner">
@@ -173,23 +294,33 @@ class App extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="num-box timer">
-                  <div className="Stopwatch">
-                    <div className="Stopwatch-header"></div>
-                      <div className="Stopwatch-display">
-                        {minutes} : {seconds}
+                <ThemeProvider theme={original}>
+                  <Counter>
+                    <div className="num-box">
+                      <div className="Stopwatch">
+                        <div className="Stopwatch-display">
+                          {minutes} : {seconds}
+                        </div>
                       </div>
                     </div>
+                  </Counter>
+                </ThemeProvider>
                 </div>
               </div>
             </div>
+              <div className="board">
+                <Board mines={mines}/>
+              </div>
           </div>
-            <div className="board">
-              <Board mines={mines}/>
-            </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <h1>One moment while we create a custom board for you!</h1>
+        </div>
+      );
+    }
   }
 }
 

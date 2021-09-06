@@ -61,15 +61,13 @@
 	border-top-color: #000;
 }
 .num-box {
+  height: 51px;
   border-color: #000;
   border-right-color: #FFF;
   border-bottom-color: #FFF;
 }
-.num-box.timer {
-  padding-top: 10px;
-  width: 58px;
-}
 .smiley-container {
+  border: 1px solid #808080;
   flex: 1 0 auto;
 	text-align: center;
 }
@@ -128,6 +126,18 @@
 .boom {
   width: 5px;
   height: 5px;
+}
+.mine-count{
+  border: 1px solid grey;
+  border-radius: 1px;
+  padding: 2px;
+  width: 54px;
+  background-color: black;
+  box-shadow: 0 1px 3px grey;
+  color: red;
+  height: 51px;
+  padding-top: 10px;
+  font-size: 18px;
 }
 
 /* buttons */
@@ -228,22 +238,20 @@ td {
 }
 
 /* stopwatch */
-/* @media (max-width: 900px) {
-  .Stopwatch {
-    margin-bottom: 40px;
-    padding-left: 435px;
-  }
-} */
 .Stopwatch {
   border: 1px solid grey;
   border-radius: 1px;
   padding: 2px;
   width: 54px;
-  background-color:#c0c0c0;
+  background-color: black;
   box-shadow: 0 1px 3px grey;
+  color: red;
+  height: 51px;
 }
 .Stopwatch-display {
+  height: 51px;
   padding: 2px;
+  padding-top: 8px;
   font-size: 18px;
 }
 .digits{
