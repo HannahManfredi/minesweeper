@@ -74,7 +74,6 @@ class App extends React.Component {
       this.setBoard(this.state.mines_total);
       this.startTimer();
     } else if (game_started) {
-      console.log('inside game started')
       this.stopTimer();
       this.resetTimer();
       this.setState({
@@ -84,7 +83,6 @@ class App extends React.Component {
   }
 
   setBoard = async () => {
-    console.log('in setBoard');
     let board = [...Array(10)].map(e => Array());
     let mines = [];
     const makeMines = () => {
@@ -120,7 +118,6 @@ class App extends React.Component {
             sFlagged: false,
             neighbor: 0
         }
-        console.log('board[i]: ', board[i])
         if (board[i]) {
           board[i].push(value);
         }
@@ -131,20 +128,13 @@ class App extends React.Component {
   } 
 
   setNeighbors = async (board) => {
-    console.log('board: ', board);
     let updatedBoard = board;
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        console.log('i: ', i)
-        console.log('j: ', j)
         if (board[i][j].isMine !== true) {
           let mine = 0;
-          console.log('board[i][j].x: ', board[i][j].x)
-          console.log('board[i][j].y: ', board[i][j].y)
           const area = this.traverseBoard(board[i][j].x, board[i][j].y, board);
-          console.log('area: ', area);
           area.map(value => {
-            console.log('value: ', value)
             if (value.isMine) {
               mine++;
             }
@@ -160,21 +150,15 @@ class App extends React.Component {
     return updatedBoard;
   }
 
-  // x=1
-  // y=10
-  //10.1
   traverseBoard = (x, y, data) => {
     const el = [];
-    console.log('x: ', x, 'y: ', y, 'data: ', data);
-    console.log('data[0]: ', data[0]) //row 1?
+
     //up
     if (x > 0) {
-      console.log('data[x - 1][y - 1]: ', data[x - 1][y - 1])
       el.push(data[x - 1][y - 1]);
     } 
     //down
     if (x < 10 - 1) {
-      console.log('data[x + 1][y]: ', data[x + 1][y])
       if (x === 9) {
         el.push(data[x][y - 1]);
       } else {
@@ -183,35 +167,26 @@ class App extends React.Component {
     }
     //left
     if (y > 0) {
-      console.log('x*: ', x, 'y*: ', y)
-      console.log('data[x-1]*: ', data[x-1][0])
-      console.log('data[x][y - 1]: ', data[x-1][y - 1])
       el.push(data[x-1][y - 1]);
     }
     //right
     if (y < 10 - 1) {
-      console.log('data[x][y + 1]: ', data[x-1][y + 1])
       el.push(data[x-1][y + 1]);
     }
     // top left
     if (x > 0 && y > 0) {
-      console.log('data[x - 1][y - 1]: ', data[x - 1][y - 1])
       el.push(data[x - 1][y - 1]);
     }
     // top right
     if (x > 0 && y < 10 - 1) {
-      console.log('data[x - 1][y + 1]: ', data[x - 1][y + 1])
       el.push(data[x - 1][y + 1]);
     }
     // bottom right
     if (x < 10 - 1 && y < 10 - 1) {
-      console.log('x: ', x, 'y: ', y)
-      // console.log('data[x + 1][y + 1]: ', data[x + 1][y + 1])
       el.push(data[x + 1][y + 1]);
     }
     // bottom left
     if (x < 10 - 1 && y > 0) {
-      console.log('data[x + 1][y - 1]: ', data[x + 1][y - 1])
       el.push(data[x + 1][y - 1]);
     }
     return el;
@@ -231,20 +206,15 @@ class App extends React.Component {
   };
 
   stopTimer = () => {
-    console.log('inside stop timer')
     this.setState({ timerOn: false });
-    console.log('timer: ', this.timer)
     clearInterval(this.timer);
-    console.log('timer: ', this.timer)
   };
 
   resetTimer = () => {
-    console.log('inside reset timer')
     this.setState({
       timerStart: 0,
       timerTime: 0
     });
-    console.log('after reset timer: ', this.timer)
   };
 
   render() {
@@ -309,7 +279,7 @@ class App extends React.Component {
               </div>
             </div>
               <div className="board">
-                <Board mines={mines}/>
+                <Board mines={mines} board={board} traverseBoard={this.traverseBoard}/>
               </div>
           </div>
         </div>

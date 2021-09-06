@@ -5,18 +5,74 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      board: [],
+      gameStatus: '',
       clicked_mine: false,
+      detonated_mines: 0,
     }
   }
 
-  click = (e) => {
-    const mines = this.props.mines;
-    let cell = e.target.dataset.item;
-    if (mines.includes(Number(cell))) {
+  click = (val, x, y) => {
+    const { board, mines } = this.props;
+    const { detonated_mines } = this.state;
+    // const mines = this.props.mines;
+    // let cell = e.target.dataset.item;
+    let cell = val;
+    // check if revealed. return if true.
+    if (board[x][y].isRevealed || board[x][y].isFlagged) {
+      return null;
+    } 
+    // check if mine. game over if true
+    if (board[x][y].isMine) {
       this.setState({
-        clicked_mine: true
+        gameStatus: "You Lost."
+      });
+      this.revealAllMines();
+      alert("game over");
+    }
+
+    let updatedBoard = board;
+
+    if (board[x][y].isEmpty) {
+      const { traverseBoard } = this.props;
+      let area = traverseBoard(x, y, board);
+      updatedBoard = this.revealEmpty(x, y, board, area);
+      console.log('updatedboard: ', updatedBoard);
+    }
+
+    if (board[x][y].neighbor) {
+      let numb = board[x][y].neighbor;
+      cell.innerHTML = "numb";
+    }
+
+    //something with detonated_mines:
+    if (detonated_mines === this.props.mines.length) {
+      this.setState({gameStatus: "You Win."});
+      this.revealBoard();
+      alert("You Win");
+     }
+     this.setState({
+      board: updatedBoard
+     });
+
+  }
+
+  revealEmpty(x, y, board, area) {
+    if (area.length) {
+      area.map(value => {
+        if (!value.isFlagged && !value.isRevealed && (value.isEmpty || !value.isMine)) {
+          board[value.x][value.y].isRevealed = true;
+          if (value.isEmpty) {
+            this.revealEmpty(value.x, value.y, board, area.slice(1));
+          }
+        }
       });
     }
+    return board;
+  }  
+
+  revealAllMines = () => {
+    const { mines } = this.props;
     let cells = document.getElementsByTagName("td");
     let img = document.createElement('img');
     img.src = boom;
@@ -28,131 +84,85 @@ class Board extends React.Component {
           cell.appendChild(img);
         }
       });
-    }
+    }  
   }
 
   render() {
-    const mines = this.props.mines;
+    const { mines, board } = this.props;
     const {clicked_mine} = this.state;
-    const gridCells1 = [1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1, 10.1]; 
-    const gridCells2 = [1.2, 2.2, 3.2, 4.2, 5.2, 6.2, 7.2, 8.2, 9.2, 10.2];
-    const gridCells3 = [1.3, 2.3, 3.3, 4.3, 5.3, 6.3, 7.3, 8.3, 9.3, 10.3];
-    const gridCells4 = [1.4, 2.4, 3.4, 4.4, 5.4, 6.4, 7.4, 8.4, 9.4, 10.4];
-    const gridCells5 = [1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5];
-    const gridCells6 = [1.6, 2.6, 3.6, 4.6, 5.6, 6.6, 7.6, 8.6, 9.6, 10.6];
-    const gridCells7 = [1.7, 2.7, 3.7, 4.7, 5.7, 6.7, 7.7, 8.7, 9.7, 10.7];
-    const gridCells8 = [1.8, 2.8, 3.8, 4.8, 5.8, 6.8, 7.8, 8.8, 9.8, 10.8];
-    const gridCells9 = [1.9, 2.9, 3.9, 4.9, 5.9, 6.9, 7.9, 8.9, 9.9, 10.9];
-    const gridCells10 = [1.10, 2.10, 3.10, 4.10, 5.10, 6.10, 7.10, 8.10, 9.10, 10.10];
+    const gridCells1 = board[0]; 
+    const gridCells2 = board[1];
+    const gridCells3 = board[2];
+    const gridCells4 = board[3];
+    const gridCells5 = board[4];
+    const gridCells6 = board[5];
+    const gridCells7 = board[6];
+    const gridCells8 = board[7];
+    const gridCells9 = board[8];
+    const gridCells10 = board[9];
     return (
-      // <div>
-        <table>
-          <tbody>
-            <tr onClick={this.click}>
-              {gridCells1.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells2.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells3.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells4.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells5.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells6.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells7.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells8.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells9.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-            <tr onClick={this.click}>
-              {gridCells10.map((val, i) => {
-                if (clicked_mine && mines.indexOf(val) > -1) {
-                  {console.log('in if')}
-                  return <td key={i} className="cell" data-item={val}><img src={boom}/></td>
-                } else {
-                  return <td key={i} className="cell" data-item={val}></td>
-                }
-              })}
-            </tr>
-          </tbody>
-        </table>
-      // </div>
+      <table>
+        <tbody>
+          <tr >
+            {gridCells1.map((val, i) => {
+                return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells2.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells3.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells4.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells5.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells6.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells7.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells8.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells9.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+          <tr onClick={this.click}>
+            {gridCells10.map((val, i) => {
+              return <td key={i} className="cell" data-item={val.val} onClick={() => this.click(val.val, val.x, val.y)}></td>
+            })}
+          </tr>
+        </tbody>
+      </table>
     );
   }
 }
 
 export default Board;
+
+
+
+
+//Click a square, you get a number. That number is the number of how many mines are surrounding it. 
+//If you find the mine, you can open "unopened" (unclicked) squares around it, opening more areas
